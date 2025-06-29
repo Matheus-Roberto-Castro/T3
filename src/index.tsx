@@ -1,16 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import Roteador from './componentes/roteador';
+import Roteador from './roteador';
 import "./index.css"
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 
-ReactDOM.render(
+const container = document.getElementById('root');
+if (container) {
+  const root = createRoot(container);
+  root.render(
   <React.StrictMode>
     <Roteador />
   </React.StrictMode>,
-  document.getElementById('root')
 );
-reportWebVitals();
+}

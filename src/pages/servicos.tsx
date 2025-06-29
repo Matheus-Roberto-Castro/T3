@@ -1,94 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
+import { servicos } from "../data/servicosData";
+import { Servico } from "../types/types";
 
-export const servicos = [
-  {
-    id: 1,
-    nome: "Corte Masculino",
-    descricao: "Corte de cabelo masculino com máquina e tesoura.",
-    preco: 35.0,
-    genero: "Masculino",
-  },
-  {
-    id: 2,
-    nome: "Corte Feminino",
-    descricao: "Corte de cabelo feminino com lavagem e finalização.",
-    preco: 60.0,
-    genero: "Feminino",
-  },
-  {
-    id: 3,
-    nome: "Barba",
-    descricao: "Modelagem de barba com navalha e toalha quente.",
-    preco: 25.0,
-    genero: "Masculino",
-  },
-  {
-    id: 4,
-    nome: "Hidratação Capilar",
-    descricao: "Tratamento intensivo para hidratação dos fios.",
-    preco: 50.0,
-    genero: "Unissex",
-  },
-  {
-    id: 5,
-    nome: "Escova",
-    descricao: "Escova com finalização lisa ou modelada.",
-    preco: 45.0,
-    genero: "Feminino",
-  },
-  {
-    id: 6,
-    nome: "Progressiva",
-    descricao: "Alisamento capilar com produto sem formol.",
-    preco: 180.0,
-    genero: "Feminino",
-  },
-  {
-    id: 7,
-    nome: "Coloração",
-    descricao: "Coloração completa dos fios com tonalidade à escolha.",
-    preco: 120.0,
-    genero: "Feminino",
-  },
-  {
-    id: 8,
-    nome: "Platinado Masculino",
-    descricao: "Descoloração total e tonalização dos fios.",
-    preco: 130.0,
-    genero: "Masculino",
-  },
-  {
-    id: 9,
-    nome: "Luzes",
-    descricao: "Mechas e luzes com papel alumínio ou touca.",
-    preco: 150.0,
-    genero: "Feminino",
-  },
-  {
-    id: 10,
-    nome: "Corte Infantil",
-    descricao: "Corte de cabelo para crianças até 10 anos.",
-    preco: 30.0,
-    genero: "Unissex",
-  },
-];
-
-export default function Servicos({ tema }) {
-  const [servicosState, setServicosState] = useState(servicos);
-  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
+export default function Servicos({ tema }: { tema: string }) {
+  const [servicosState, setServicosState] = useState<Servico[]>(servicos);
+  const [servicoSelecionado, setServicoSelecionado] = useState<Servico | null>(null);
   const [modalCadastroAberto, setModalCadastroAberto] = useState(false);
   const [modalDetalhesAberto, setModalDetalhesAberto] = useState(false);
   const [modalEdicaoAberto, setModalEdicaoAberto] = useState(false);
-  const [filtroGenero, setFiltroGenero] = useState("Todos");
+  const [filtroGenero, setFiltroGenero] = useState<string>("Todos");
 
-  function abrirModalDetalhes(servico) {
-    setProdutoSelecionado(servico);
+  function abrirModalDetalhes(servico: Servico) {
+    setServicoSelecionado(servico);
     setModalDetalhesAberto(true);
   }
 
   function fecharModalDetalhes() {
     setModalDetalhesAberto(false);
-    setProdutoSelecionado(null);
+    setServicoSelecionado(null);
   }
 
   function abrirModalEdicao() {
@@ -113,7 +42,7 @@ export default function Servicos({ tema }) {
     return servicosState.filter((p) => p.genero === filtroGenero);
   }
 
-  function handleFiltroGeneroChange(event) {
+  function handleFiltroGeneroChange(event: ChangeEvent<HTMLSelectElement>) {
     setFiltroGenero(event.target.value);
   }
 
@@ -174,7 +103,7 @@ export default function Servicos({ tema }) {
         <i className="bi bi-plus-lg" style={{ fontSize: "1.75rem" }}></i>
       </button>
 
-      {modalDetalhesAberto && produtoSelecionado && (
+      {modalDetalhesAberto && servicoSelecionado && (
         <div
           className="modal fade show"
           style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
@@ -182,13 +111,13 @@ export default function Servicos({ tema }) {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">{produtoSelecionado.nome}</h5>
+                <h5 className="modal-title">{servicoSelecionado.nome}</h5>
                 <button className="btn-close" onClick={fecharModalDetalhes}></button>
               </div>
               <div className="modal-body">
-                <p>{produtoSelecionado.descricao}</p>
+                <p>{servicoSelecionado.descricao}</p>
                 <p>
-                  <strong>Preço:</strong> R$ {produtoSelecionado.preco.toFixed(2)}
+                  <strong>Preço:</strong> R$ {servicoSelecionado.preco.toFixed(2)}
                 </p>
               </div>
               <div className="modal-footer">
@@ -210,7 +139,7 @@ export default function Servicos({ tema }) {
         </div>
       )}
 
-      {modalEdicaoAberto && produtoSelecionado && (
+      {modalEdicaoAberto && servicoSelecionado && (
         <div
           className="modal fade show"
           style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
@@ -218,21 +147,21 @@ export default function Servicos({ tema }) {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Editar {produtoSelecionado.nome}</h5>
+                <h5 className="modal-title">Editar {servicoSelecionado.nome}</h5>
                 <button className="btn-close" onClick={fecharModalEdicao}></button>
               </div>
               <div className="modal-body">
                 <div className="mb-3">
                   <input
                     className="form-control"
-                    defaultValue={produtoSelecionado.nome}
-                    placeholder="Nome do Produto"
+                    defaultValue={servicoSelecionado.nome}
+                    placeholder="Nome do Serviço"
                   />
                 </div>
                 <div className="mb-3">
                   <textarea
                     className="form-control"
-                    defaultValue={produtoSelecionado.descricao}
+                    defaultValue={servicoSelecionado.descricao}
                     placeholder="Descrição"
                   ></textarea>
                 </div>
@@ -240,7 +169,7 @@ export default function Servicos({ tema }) {
                   <input
                     className="form-control"
                     type="number"
-                    defaultValue={produtoSelecionado.preco}
+                    defaultValue={servicoSelecionado.preco}
                     placeholder="Preço (R$)"
                   />
                 </div>
@@ -267,7 +196,7 @@ export default function Servicos({ tema }) {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Cadastrar Servico</h5>
+                <h5 className="modal-title">Cadastrar Serviço</h5>
                 <button
                   type="button"
                   className="btn-close"
@@ -276,7 +205,7 @@ export default function Servicos({ tema }) {
               </div>
               <div className="modal-body">
                 <div className="mb-3">
-                  <input className="form-control" placeholder="Nome do Produto" />
+                  <input className="form-control" placeholder="Nome do Serviço" />
                 </div>
                 <div className="mb-3">
                   <textarea className="form-control" placeholder="Descrição"></textarea>

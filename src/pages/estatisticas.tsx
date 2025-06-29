@@ -1,18 +1,8 @@
 import React, { useState } from "react";
-import {
-  BarChart,
-  Bar,
-  Rectangle,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import { clientes } from "./listaCliente";
-import { produtos } from "./produtos";
-import { servicos } from "./servicos";
+import { BarChart,Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,} from "recharts";
+import { clientes } from "../data/clientesData";
+import { produtos } from "../data/produtosData";
+import { servicos } from "../data/servicosData";
 
 export default function Estatisticas() {
   const [generoSelecionado, setGeneroSelecionado] = useState("Feminino");

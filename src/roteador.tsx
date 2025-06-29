@@ -1,19 +1,20 @@
 import { useState } from "react";
-import BarraNavegacao from "./barraNavegacao";
-import ListaCliente, { clientes } from "./listaCliente";
-import FormularioCadastroCliente from "./formularioCadastroCliente";
-import Produtos from "./produtos";
-import Servicos from "./servicos";
-import RegistrarConsumo from "./registrarConsumo";
-import Estatisticas from "./estatisticas";
-import Home from "./home";
-import { produtos } from "./produtos";
-import { servicos } from "./servicos";
+import BarraNavegacao from "./componentes/barraNavegacao";
+import ListaCliente from "./pages/listaCliente";
+import FormularioCadastroCliente from "./pages/formularioCadastroCliente";
+import Produtos from "./pages/produtos";
+import Servicos from "./pages/servicos";
+import RegistrarConsumo from "./pages/registrarConsumo";
+import Estatisticas from "./pages/estatisticas";
+import Home from "./pages/home";
+import { clientes } from "./data/clientesData";
+import { produtos } from "./data/produtosData";
+import { servicos } from "./data/servicosData";
 
 export default function Roteador() {
     const [tela, setTela] = useState("Home");
 
-    const selecionarView = (novaTela, evento) => {
+    const selecionarView = (novaTela:string, evento:any) => {
         evento.preventDefault();
         console.log(novaTela);
         setTela(novaTela);
@@ -47,6 +48,7 @@ export default function Roteador() {
         case "Registrar consumo":
             componente = (
                 <RegistrarConsumo
+                    tema=""
                     clientes={clientes}
                     servicos={servicos}
                     produtos={produtos}

@@ -1,4 +1,4 @@
-import CardFuncao from "./card";
+import CardFuncao from "../componentes/card";
 
 const funcoes = [
     {
